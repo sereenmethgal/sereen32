@@ -1,19 +1,17 @@
-call us
 <!DOCTYPE html>
 <html>
 <body>
 
-<h1> Welcome</h1>
 
 
-<form action="/contact" method = "post" >
-    @csrf
-    <input type = "text" name="name" id="name">
-    <input type = "submit" value="send" >
-</form >
+<ul>
+@foreach ( $tasks as $index => $task )
+       <li><a href = "about/{{$task->id}}"> {{$task->name}}</a> </li>
+       <!-- <li> {{$task->name}} </li> -->
+       <!-- <li> {{$task->created_at}} </li> -->
+       @endforeach
+</ul>
 
-<!-- @if (isset($name))
-Hello , {{$name}}
-@endif -->
 </body>
 </html>
+
