@@ -30,6 +30,3 @@ Route :: get('/control2/{id}',function($id){
 Route::get('/about' ,[ProductsController::class,'index']);
 Route::get('/about/{id}',[ProductsController::class,'show']);
 Route::$_POST('/stor',[ProductsController::class,'stor']);
-Route::get('app',function(){
-    return view ('layout.app')})
-
