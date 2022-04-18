@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\PostController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,19 +15,11 @@ use App\Http\Controllers\TaskController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-Route :: get('control',function(){
-    $pro = DB :: table('products') -> get();
-
-    return view('show',compact('pro'));
+    return view('insert');
 });
 
-Route :: get('/control2/{id}',function($id){
-    $pro2 = DB :: table('products') -> find($id);
-
-    return view('show2',compact('pro2'));
-});
-Route::get('/about' ,[ProductsController::class,'index']);
-Route::get('/about/{id}',[ProductsController::class,'show']);
-Route::$_POST('/stor',[ProductsController::class,'stor']);
+Route::post('/store',[PostController::class,'store']);
+Route::get('/show',[PostController::class,'show']);
+Route::get('/delete/{id}',[PostController::class,'destroy']);
+Route::get('/edit/{id}',[PostController::class,'edit']);
+Route::post('/update/{id}',[PostController::class,'update']);
