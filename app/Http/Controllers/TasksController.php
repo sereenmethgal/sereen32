@@ -2,46 +2,94 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\StoreTaskRequest;
-use App\Task ;
-class TasksController extends Controller
+
+class PostController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('insert');
+    }
+
     
-public function index(){
+    
 
-   // $tasks = DB::table('tasks')->get();
-$tasks = Task::all();
-    return view('welcome',compact('tasks'));
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $post=new Post;
+        $post->post_title=$request->get('title');
+        $post->post_author=$request->get('author');
+        $post->save();
 
+        echo "<h1>Data send successfully.....</h1>";
+    }
 
-}
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Post $post)
+    {
+        $posts=Post::all();
 
-//public function store(StoreTaskRequest $request){
+        return view('show',['posts'=>$posts]);
+    }
 
-public function store(request $request){
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Post $post,$id)
+    {
+        $posts=Post::find($id);
+        return view('edit',['posts'=>$posts]);
+    }
 
-     $validatedData = $request->validate([
-         'name' => 'required|max:255',
-        
-     ]);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Post $post,$id)
+    {
+         $posts=Post::find($id);
+         $posts->post_title=$request->get('title');
+          $posts->post_author=$request->get('author');
 
-     $task =new Task;
-     $task->name=$request->name;
-     $task->save();
-     
-     
-        
-        return redirect('/');
+          $posts->save();
 
+          return redirect('show');
+    }
 
-}
-public function destory($id){
-    task::find($id)->delete();
-    return redirect('/');
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Post $post,$id)
+    {
+        $post=Post::find($id);
+        $post->delete();
+        return redirect('show');
 
-
-
-}
+    }
 }
